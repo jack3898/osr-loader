@@ -1,0 +1,30 @@
+name: 'Build and publish to NPM'
+
+on:
+    workflow_dispatch
+
+jobs:
+    release:
+        name: publish
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v3
+            - name: node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+                  registry-url: https://registry.npmjs.org
+            - name: Install dependencies
+              run: npm ci
+              env:
+                  NODE_ENV: development
+            - name: Checks
+              run: |
+                  npm run lint
+                  npm test
+                  npm run build
+            - name: Publish to NPM 🥳
+              run: npm publish --access public
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}

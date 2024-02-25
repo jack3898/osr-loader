@@ -1,10 +1,11 @@
 {
   "name": "osr-loader",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Osu! OSR file loader.",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
     "dev": "tsc --watch",
     "lint": "eslint **/*.ts --max-warnings 0",
     "test": "vitest run"
