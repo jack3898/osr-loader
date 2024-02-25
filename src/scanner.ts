@@ -62,6 +62,7 @@ export class Scanner {
     /**
      * Reads a string from the source using LEB128 encoding. The string returned is a UTF-8 string.
      *
+     * @see https://osu.ppy.sh/wiki/en/Client/File_formats/osr_%28file_format%29
      * @see https://en.wikipedia.org/wiki/LEB128
      */
     readString(): string {
@@ -73,13 +74,13 @@ export class Scanner {
 
         this.#advance(1);
 
-        const sourceSlice = this.#source.subarray(this.#current - 1, this.#current + 8);
+        const sourceSlice = this.#source.subarray(this.#current, this.#current + 8);
         const ulebString = leb.decodeUInt64(sourceSlice);
         const strLen: number = ulebString.value;
 
         this.#advance(strLen + ulebString.nextIndex);
 
-        return this.#source.subarray(this.#current - strLen - 1, this.#current - 1).toString();
+        return this.#source.subarray(this.#current - strLen, this.#current).toString();
     }
 
     /**

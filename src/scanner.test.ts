@@ -37,9 +37,11 @@ describe('Scanner', () => {
     });
 
     it('should read a uleb string', () => {
+        // Osr has is that the first byte (11 in this case) is the start of ULEB128, then the second byte is the length of the string
         const helloWorldMessage = [
-            0x0b, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64, 0x00, 0x0f
+            0x0b, 0x0b, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64
         ];
+
         const data = new Uint8Array([0x0f, ...helloWorldMessage, 0x0f]);
         const scanner = new Scanner(Buffer.concat([data]));
 

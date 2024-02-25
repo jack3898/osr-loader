@@ -29,7 +29,8 @@
   "license": "GPL-3.0",
   "dependencies": {
     "leb": "^0.3.0",
-    "lzma": "^2.3.2"
+    "lzma": "^2.3.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
