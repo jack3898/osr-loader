@@ -24,7 +24,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jack3898/osr-loader.git"
+    "url": "git+https://github.com/jack3898/osr-loader.git"
   },
   "author": "Jack Wright",
   "license": "GPL-3.0",
