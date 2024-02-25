@@ -1,6 +1,6 @@
 {
   "name": "osr-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Osu! OSR file loader.",
   "type": "module",
   "main": "dist/index.js",

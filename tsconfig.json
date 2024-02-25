@@ -10,5 +10,5 @@
         "skipLibCheck": true,
         "sourceMap": true
     },
-    "exclude": ["dist", "vitest.config.ts", "**/*.e2e.test.ts", "**/*.unit.test.ts"],
+    "exclude": ["dist", "vitest.config.ts", "**/*.test.ts"],
 }
