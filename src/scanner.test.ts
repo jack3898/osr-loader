@@ -2,14 +2,6 @@ import { Scanner, ScannerError } from './scanner.js';
 import { describe, it, expect } from 'vitest';
 
 describe('Scanner', () => {
-    it("should throw an error if it's at the end of the source", () => {
-        const data = new Uint8Array([0x00]);
-        const scanner = new Scanner(Buffer.concat([data]));
-
-        expect(scanner.readByte()).toBe(0);
-        expect(() => scanner.readByte()).toThrowError(ScannerError);
-    });
-
     it('should read a byte', () => {
         const data = new Uint8Array([0x00, 0x0f]);
         const scanner = new Scanner(Buffer.concat([data]));
@@ -55,5 +47,29 @@ describe('Scanner', () => {
         expect(scanner.readByte()).toBe(15);
         expect(scanner.readString()).toBe('Hello World');
         expect(scanner.readByte()).toBe(15);
+    });
+
+    it('should read a compressed lzma string', async () => {
+        const helloWorldMessage = [
+            93, 0, 0, -128, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 36, 25, 73, -104, 111, 16, 17, -56, 95,
+            -26, -43, -114, 34, 36, 26, -1, -3, -4, -16, 0
+        ];
+
+        const data = new Uint8Array([0x0f, ...helloWorldMessage, 0x0f]);
+
+        const scanner = new Scanner(Buffer.concat([data]));
+
+        // Checking if the scanner is at the right position by adding a byte before and after the string
+        expect(scanner.readByte()).toBe(15);
+        expect(await scanner.readCompressed(helloWorldMessage.length)).toBe('Hello World');
+        expect(scanner.readByte()).toBe(15);
+    });
+
+    it('should throw a scanner error if the scanner is out of bounds', () => {
+        const data = new Uint8Array([0x0f]);
+        const scanner = new Scanner(Buffer.concat([data]));
+
+        expect(() => scanner.readByte()).not.toThrowError(ScannerError);
+        expect(() => scanner.readByte()).toThrowError(ScannerError);
     });
 });
